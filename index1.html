@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Délégué d'or - Documentation complète</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        /* Styles de base communs à toutes les pages */
+        :root {
+            --primary: #FFD700;
+            --primary-dark: #E6B800;
+            --secondary: #1a1a1a;
+            --text: #333;
+            --bg-light: #f9f9f9;
+            --sidebar-width: 280px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            background: var(--bg-light);
+        }
+
+        /* Sidebar styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: white;
+            padding: 2rem;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sidebar-logo img {
+            width: 150px;
+            height: auto;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background: var(--primary);
+            color: var(--secondary);
+        }
+
+        .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main content styles */
+        .main-content {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+        }
+
+        .page {
+            display: none;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .page.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-title {
+            color: var(--secondary);
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        /* Components styles */
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .step-list {
+            list-style: none;
+            counter-reset: step;
+        }
+
+        .step-list li {
+            position: relative;
+            padding: 1rem 1rem 1rem 3rem;
+            margin-bottom: 1rem;
+            background: #f8f8f8;
+            border-radius: 8px;
+        }
+
+        .step-list li::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+
+        /* Alert styles */
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            color: #0d47a1;
+        }
+
+        .alert-warning {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        /* Video tutorial style */
+        .video-container {
+            background: #f0f0f0;
+            border-radius: 10px;
+            padding: 2rem;
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .video-placeholder {
+            width: 100%;
+            max-width: 560px;
+            height: 315px;
+            background: #ddd;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        /* Table styles */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .table th, .table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .table th {
+            background: #f5f5f5;
+            font-weight: bold;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-bottom: 1rem;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-dark);
+            text-decoration: none;
+        }
+
+        .breadcrumb i {
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-logo">
+            <h2>✨ Délégué d'or</h2>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="#getting-started" class="nav-link">
+                    <i class="fas fa-rocket"></i>
+                    Démarrage rapide
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#video-tutorials" class="nav-link">
+                    <i class="fas fa-play-circle"></i>
+                    Tutoriels vidéo
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#account-settings" class="nav-link">
+                    <i class="fas fa-user-cog"></i>
+                    Paramètres du compte
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#team-management" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    Gestion d'équipe
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#security" class="nav-link">
+                    <i class="fas fa-shield-alt"></i>
+                    Sécurité
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#reports" class="nav-link">
+                    <i class="fas fa-chart-bar"></i>
+                    Rapports
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#troubleshooting" class="nav-link">
+                    <i class="fas fa-wrench"></i>
+                    Dépannage
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#contact-support" class="nav-link">
+                    <i class="fas fa-headset"></i>
+                    Contact support
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Getting Started Page -->
+        <div id="getting-started" class="page active">
+            <div class="breadcrumb">
+                <a href="#">Accueil</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Démarrage rapide</span>
+            </div>
+            <h1 class="page-title">Démarrage rapide</h1>
+            
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <div>Bienvenue sur Délégué d'or ! Suivez ce guide pour configurer votre compte en quelques minutes.</div>
+            </div>
+
+            <div class="card">
+                <h2>Configuration initiale</h2>
+                <ol class="step-list">
+                    <li>Téléchargez l'application depuis votre store préféré</li>
+                    <li>Créez votre compte avec votre email professionnel</li>
+                    <li>Vérifiez votre email et activez votre compte</li>
+                    <li>Complétez votre profil professionnel</li>
+                </ol>
+            </div>
+
+            <div class="video-container">
+                <h3>Tutoriel de démarrage</h3>
+                <div class="video-placeholder">
+                    <i class="fas fa-play-circle fa-3x"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video Tutorials Page -->
+        <div id="video-tutorials" class="page">
+            <div class="breadcrumb">
+                <a href="#">Accueil</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Tutoriels vidéo</span>
+            </div>
+            <h1 class="page-title">Tutoriels vidéo</h1>
+            
+            <div class="card">
+                <h2>Fondamentaux</h2>
+                <div class="video-container">
+                    <h3>Navigation dans l'application</h3>
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Fonctionnalités avancées</h2>
+                <div class="video-container">
+                    <h3>Création de rapports personnalisés</h3>
+                    <div class="video-placeholder">
+                        <i class="fas fa-play-circle fa-3x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Settings Page -->
+        <div id="account-settings" class="page">
+            <div class="breadcrumb">
+                <a href="#">Accueil</a>
+                <i class="fas fa-chevron-right"></i>
+                <span>Paramètres du compte</span>
+            </div>
+            <h1 class="page-title">Paramètres du compte</h1>
+
+            <div class="card">
+                <h2>Profil</h2>
+                <table class="table">
+                    <tr>
+                        <th>Paramètre</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td>Photo de profil</td>
+                        <td>Format JPG ou PNG, max 5MB</td>
+                    </tr>
+                    <tr>
+                        <td>Informations personnelles</td>
+                        <td>Nom, prénom, titre, bio</td>
+                    </tr>
+                    <tr>
+                        <td>Préférences de notification</td>
+                        <td>Email, push, fréquence</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Additional pages would continue here... -->
+
+    </main>
+
+    <script>
+        // Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                
+                // Show target page
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+
+        // Making the sidebar sticky
+        const sidebar = document.querySelector('.sidebar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 0) {
+                sidebar.style.top = '0';
+            } else {
+                sidebar.style.top = 'initial';
+            }
+        });
+    </script>
+</body>
+</html>
